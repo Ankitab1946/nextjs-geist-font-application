@@ -1,0 +1,28 @@
+{
+  "start_time": "2025-09-23T00:32:50.916477",
+  "end_time": "2025-09-23T00:32:50.993026",
+  "duration": "0s",
+  "commit_hash": "eca76a2",
+  "test_results": {
+    "success": false,
+    "return_code": 2,
+    "stdout": "",
+    "stderr": "usage: behave [options] [ [DIR|FILE|FILE:LINE] ]+\nbehave: error: format=junit is unknown\n",
+    "execution_time": "0s",
+    "timestamp": "20250923_003250",
+    "cucumber_json_file": "reports/cucumber_report_20250923_003250.json",
+    "junit_xml_file": "reports/junit_report_20250923_003250.xml",
+    "feature_file": null,
+    "scenarios": [],
+    "statistics": {
+      "total_scenarios": 0,
+      "passed_scenarios": 0,
+      "failed_scenarios": 0,
+      "skipped_scenarios": 0,
+      "total_steps": 0,
+      "passed_steps": 0,
+      "failed_steps": 0,
+      "skipped_steps": 0
+    }
+  }
+}
