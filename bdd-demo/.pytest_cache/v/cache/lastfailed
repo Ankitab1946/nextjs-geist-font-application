@@ -1,0 +1,3 @@
+{
+  "tests/test_data_validation.py::TestDataValidation::test_database_connection": true
+}
