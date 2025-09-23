@@ -487,3 +487,261 @@ def step_revenue_meets_criteria(context):
     except Exception as e:
         logger.error(f"Revenue validation failed: {e}")
         assert False, f"Revenue data validation failed: {e}"
+
+# Parameterized test step definitions
+@given('I have access to the client database')
+def step_access_client_database(context):
+    """Verify access to client database."""
+    try:
+        db = get_db_manager()
+        assert db.connect(), "Should be able to connect to database"
+        context.db_connected = True
+        db.disconnect()
+        logger.info("Database access verified")
+    except Exception as e:
+        logger.error(f"Database access failed: {e}")
+        assert False, f"Cannot access client database: {e}"
+
+@given('the database contains client revenue data')
+def step_database_contains_revenue_data(context):
+    """Verify database contains client revenue data."""
+    try:
+        query = "SELECT COUNT(*) as count FROM clients WHERE revenue IS NOT NULL"
+        result = quick_query(query)
+        count = result[0]['count'] if result else 0
+        assert count > 0, f"Database should contain revenue data, found {count} records"
+        context.revenue_records_count = count
+        logger.info(f"Database contains {count} records with revenue data")
+    except Exception as e:
+        logger.error(f"Revenue data check failed: {e}")
+        assert False, f"Database revenue data verification failed: {e}"
+
+@given('I have client "{client_name}" in the database')
+def step_have_client_in_database(context, client_name):
+    """Verify specific client exists in database."""
+    try:
+        query = f"SELECT * FROM clients WHERE client_name = '{client_name}'"
+        result = quick_query(query)
+        assert result is not None and len(result) > 0, f"Client '{client_name}' not found in database"
+        context.current_client = result[0]
+        context.current_client_name = client_name
+        logger.info(f"Found client '{client_name}' in database")
+    except Exception as e:
+        logger.error(f"Client lookup failed: {e}")
+        assert False, f"Client '{client_name}' verification failed: {e}"
+
+@when('I check their revenue amount')
+def step_check_revenue_amount(context):
+    """Check the revenue amount for current client."""
+    try:
+        assert hasattr(context, 'current_client'), "No current client set"
+        revenue = context.current_client.get('revenue')
+        assert revenue is not None, "Revenue should not be null"
+        context.current_revenue = float(revenue)
+        logger.info(f"Current client revenue: ${context.current_revenue:,.2f}")
+    except Exception as e:
+        logger.error(f"Revenue check failed: {e}")
+        assert False, f"Revenue amount check failed: {e}"
+
+@then('the revenue should be at least {min_revenue:d}')
+def step_revenue_at_least(context, min_revenue):
+    """Verify revenue meets minimum threshold."""
+    try:
+        assert hasattr(context, 'current_revenue'), "No current revenue set"
+        assert context.current_revenue >= min_revenue, f"Revenue ${context.current_revenue:,.2f} should be at least ${min_revenue:,}"
+        logger.info(f"Revenue ${context.current_revenue:,.2f} meets minimum threshold ${min_revenue:,}")
+    except Exception as e:
+        logger.error(f"Minimum revenue validation failed: {e}")
+        assert False, f"Revenue minimum threshold validation failed: {e}"
+
+@then('the revenue should be less than {max_revenue:d}')
+def step_revenue_less_than(context, max_revenue):
+    """Verify revenue is below maximum threshold."""
+    try:
+        assert hasattr(context, 'current_revenue'), "No current revenue set"
+        assert context.current_revenue < max_revenue, f"Revenue ${context.current_revenue:,.2f} should be less than ${max_revenue:,}"
+        logger.info(f"Revenue ${context.current_revenue:,.2f} is below maximum threshold ${max_revenue:,}")
+    except Exception as e:
+        logger.error(f"Maximum revenue validation failed: {e}")
+        assert False, f"Revenue maximum threshold validation failed: {e}"
+
+
+@given('I make a request to the "{endpoint}" API endpoint')
+def step_make_api_request(context, endpoint):
+    """Make request to specified API endpoint."""
+    try:
+        import requests
+        from app.config import Config
+        config = Config()
+        
+        base_url = f"http://{config.FASTAPI_HOST}:{config.FASTAPI_PORT}"
+        full_url = f"{base_url}{endpoint}"
+        
+        response = requests.get(full_url, timeout=10)
+        assert response.status_code == 200, f"API request failed with status {response.status_code}"
+        
+        context.api_response = response.json()
+        context.api_endpoint = endpoint
+        logger.info(f"API request to {endpoint} successful")
+    except Exception as e:
+        logger.error(f"API request failed: {e}")
+        assert False, f"API request to {endpoint} failed: {e}"
+
+@when('I receive the response')
+def step_receive_response(context):
+    """Process the received API response."""
+    try:
+        assert hasattr(context, 'api_response'), "No API response available"
+        assert context.api_response is not None, "API response should not be null"
+        logger.info("API response received and processed")
+    except Exception as e:
+        logger.error(f"Response processing failed: {e}")
+        assert False, f"API response processing failed: {e}"
+
+@then('the "{field_name}" field should be of type "{expected_type}"')
+def step_field_type_validation(context, field_name, expected_type):
+    """Validate field type in API response."""
+    try:
+        assert hasattr(context, 'api_response'), "No API response available"
+        
+        # Handle different response structures
+        data = context.api_response
+        if isinstance(data, dict) and 'data' in data:
+            data = data['data']
+        if isinstance(data, list) and len(data) > 0:
+            data = data[0]
+        
+        assert field_name in data, f"Field '{field_name}' not found in response"
+        
+        field_value = data[field_name]
+        
+        # Type validation
+        if expected_type == 'integer':
+            assert isinstance(field_value, int), f"Field '{field_name}' should be integer, got {type(field_value)}"
+        elif expected_type == 'string':
+            assert isinstance(field_value, str), f"Field '{field_name}' should be string, got {type(field_value)}"
+        elif expected_type == 'number':
+            assert isinstance(field_value, (int, float)), f"Field '{field_name}' should be number, got {type(field_value)}"
+        
+        logger.info(f"Field '{field_name}' type validation passed: {expected_type}")
+    except Exception as e:
+        logger.error(f"Field type validation failed: {e}")
+        assert False, f"Field '{field_name}' type validation failed: {e}"
+
+@then('the "{field_name}" field should not be null')
+def step_field_not_null(context, field_name):
+    """Validate field is not null."""
+    try:
+        assert hasattr(context, 'api_response'), "No API response available"
+        
+        # Handle different response structures
+        data = context.api_response
+        if isinstance(data, dict) and 'data' in data:
+            data = data['data']
+        if isinstance(data, list) and len(data) > 0:
+            data = data[0]
+        
+        assert field_name in data, f"Field '{field_name}' not found in response"
+        assert data[field_name] is not None, f"Field '{field_name}' should not be null"
+        
+        logger.info(f"Field '{field_name}' null validation passed")
+    except Exception as e:
+        logger.error(f"Field null validation failed: {e}")
+        assert False, f"Field '{field_name}' null validation failed: {e}"
+
+@given('I have a data quality rule for "{rule_type}"')
+def step_have_quality_rule(context, rule_type):
+    """Set up data quality rule."""
+    try:
+        context.quality_rule_type = rule_type
+        context.quality_rule_config = {
+            'not_null': {'check_nulls': True},
+            'positive_numbers': {'min_value': 0},
+            'reasonable_range': {'min_value': 0, 'max_value': 1000000},
+            'unique_values': {'check_uniqueness': True}
+        }
+        
+        assert rule_type in context.quality_rule_config, f"Unknown rule type: {rule_type}"
+        logger.info(f"Data quality rule '{rule_type}' configured")
+    except Exception as e:
+        logger.error(f"Quality rule setup failed: {e}")
+        assert False, f"Data quality rule setup failed: {e}"
+
+@when('I apply the rule to column "{column_name}"')
+def step_apply_rule_to_column(context, column_name):
+    """Apply quality rule to specified column."""
+    try:
+        assert hasattr(context, 'quality_rule_type'), "No quality rule configured"
+        
+        # Get column data
+        query = f"SELECT {column_name} FROM clients"
+        result = quick_query(query)
+        assert result is not None, f"Could not retrieve data for column '{column_name}'"
+        
+        column_data = [row[column_name] for row in result]
+        context.column_data = column_data
+        context.column_name = column_name
+        
+        # Apply rule based on type
+        rule_type = context.quality_rule_type
+        validation_passed = True
+        validation_details = {}
+        
+        if rule_type == 'not_null':
+            null_count = sum(1 for value in column_data if value is None)
+            validation_passed = null_count == 0
+            validation_details = {'null_count': null_count, 'total_count': len(column_data)}
+        
+        elif rule_type == 'positive_numbers':
+            if column_name == 'revenue':
+                negative_count = sum(1 for value in column_data if value is not None and float(value) <= 0)
+                validation_passed = negative_count == 0
+                validation_details = {'negative_count': negative_count, 'total_count': len(column_data)}
+        
+        elif rule_type == 'reasonable_range':
+            if column_name == 'revenue':
+                out_of_range = sum(1 for value in column_data if value is not None and (float(value) < 0 or float(value) > 1000000))
+                validation_passed = out_of_range == 0
+                validation_details = {'out_of_range_count': out_of_range, 'total_count': len(column_data)}
+        
+        elif rule_type == 'unique_values':
+            unique_count = len(set(column_data))
+            validation_passed = unique_count == len(column_data)
+            validation_details = {'unique_count': unique_count, 'total_count': len(column_data)}
+        
+        context.rule_validation_passed = validation_passed
+        context.rule_validation_details = validation_details
+        
+        logger.info(f"Applied rule '{rule_type}' to column '{column_name}': {validation_passed}")
+    except Exception as e:
+        logger.error(f"Rule application failed: {e}")
+        assert False, f"Rule application to column '{column_name}' failed: {e}"
+
+@then('the validation should "{expected_result}"')
+def step_validation_result(context, expected_result):
+    """Check validation result."""
+    try:
+        assert hasattr(context, 'rule_validation_passed'), "No validation result available"
+        
+        if expected_result == 'pass':
+            assert context.rule_validation_passed, f"Validation should pass but failed: {context.rule_validation_details}"
+        elif expected_result == 'fail':
+            assert not context.rule_validation_passed, f"Validation should fail but passed: {context.rule_validation_details}"
+        
+        logger.info(f"Validation result check passed: expected '{expected_result}', got {'pass' if context.rule_validation_passed else 'fail'}")
+    except Exception as e:
+        logger.error(f"Validation result check failed: {e}")
+        assert False, f"Validation result check failed: {e}"
+
+@then('I should get a detailed validation report')
+def step_get_validation_report(context):
+    """Verify detailed validation report is available."""
+    try:
+        assert hasattr(context, 'rule_validation_details'), "No validation details available"
+        assert context.rule_validation_details is not None, "Validation details should not be null"
+        assert len(context.rule_validation_details) > 0, "Validation details should contain information"
+        
+        logger.info(f"Validation report available: {context.rule_validation_details}")
+    except Exception as e:
+        logger.error(f"Validation report check failed: {e}")
+        assert False, f"Validation report check failed: {e}"
