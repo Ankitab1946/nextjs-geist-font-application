@@ -1,0 +1,16 @@
+[
+  "tests/test_data_validation.py::TestDataIntegrity::test_csv_to_database_integrity",
+  "tests/test_data_validation.py::TestDataIntegrity::test_data_consistency_across_sources",
+  "tests/test_data_validation.py::TestDataValidation::test_api_data_quality",
+  "tests/test_data_validation.py::TestDataValidation::test_client_revenue_validation[Client A-100000]",
+  "tests/test_data_validation.py::TestDataValidation::test_client_revenue_validation[Client B-200000]",
+  "tests/test_data_validation.py::TestDataValidation::test_client_revenue_validation[Client C-50000]",
+  "tests/test_data_validation.py::TestDataValidation::test_clients_table_exists",
+  "tests/test_data_validation.py::TestDataValidation::test_data_quality_expectations",
+  "tests/test_data_validation.py::TestDataValidation::test_database_connection",
+  "tests/test_data_validation.py::TestDataValidation::test_large_dataset_validation",
+  "tests/test_data_validation.py::TestDataValidation::test_revenue_validation_scenarios[test_data0-True]",
+  "tests/test_data_validation.py::TestDataValidation::test_revenue_validation_scenarios[test_data1-False]",
+  "tests/test_data_validation.py::TestDataValidation::test_revenue_validation_scenarios[test_data2-False]",
+  "tests/test_data_validation.py::TestDataValidation::test_revenue_validation_scenarios[test_data3-False]"
+]
