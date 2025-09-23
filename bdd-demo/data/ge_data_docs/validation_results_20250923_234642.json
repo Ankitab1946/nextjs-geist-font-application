@@ -1,0 +1,38 @@
+{
+  "success": false,
+  "statistics": {
+    "evaluated_expectations": 1,
+    "successful_expectations": 0,
+    "unsuccessful_expectations": 1,
+    "success_percent": 0.0
+  },
+  "results": [
+    {
+      "expectation_config": {
+        "expectation_type": "expect_column_values_to_be_between",
+        "kwargs": {
+          "column": "revenue",
+          "min_value": 0,
+          "max_value": 1000000
+        }
+      },
+      "success": false,
+      "result": {
+        "observed_value": {
+          "min": 2000000.0,
+          "max": 2000000.0,
+          "null_count": 0
+        },
+        "details": {
+          "has_nulls": false,
+          "all_positive": true,
+          "reasonable_max": false
+        }
+      }
+    }
+  ],
+  "meta": {
+    "validation_time": "2025-09-23T23:46:42.899758",
+    "expectation_suite_name": "api_data_validation"
+  }
+}
