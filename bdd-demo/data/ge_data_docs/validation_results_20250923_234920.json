@@ -1,0 +1,82 @@
+{
+  "success": true,
+  "statistics": {
+    "evaluated_expectations": 3,
+    "successful_expectations": 3,
+    "unsuccessful_expectations": 0,
+    "success_percent": 100.0
+  },
+  "results": [
+    {
+      "expectation_config": {
+        "expectation_type": "expect_column_values_to_be_between",
+        "kwargs": {
+          "column": "client_id",
+          "min_value": 0,
+          "max_value": 1000000
+        }
+      },
+      "success": true,
+      "result": {
+        "observed_value": {
+          "min": 1.0,
+          "max": 2.0,
+          "null_count": 0
+        },
+        "details": {
+          "has_nulls": false,
+          "all_positive": true,
+          "reasonable_max": true
+        }
+      }
+    },
+    {
+      "expectation_config": {
+        "expectation_type": "expect_column_values_to_not_be_null",
+        "kwargs": {
+          "column": "client_name"
+        }
+      },
+      "success": true,
+      "result": {
+        "observed_value": {
+          "null_count": 0,
+          "empty_count": 0,
+          "max_length": 14
+        },
+        "details": {
+          "has_nulls": false,
+          "has_empty": false,
+          "reasonable_length": true
+        }
+      }
+    },
+    {
+      "expectation_config": {
+        "expectation_type": "expect_column_values_to_be_between",
+        "kwargs": {
+          "column": "revenue",
+          "min_value": 0,
+          "max_value": 1000000
+        }
+      },
+      "success": true,
+      "result": {
+        "observed_value": {
+          "min": 150000.5,
+          "max": 275000.75,
+          "null_count": 0
+        },
+        "details": {
+          "has_nulls": false,
+          "all_positive": true,
+          "reasonable_max": true
+        }
+      }
+    }
+  ],
+  "meta": {
+    "validation_time": "2025-09-23T23:49:20.261837",
+    "expectation_suite_name": "api_data_validation"
+  }
+}
