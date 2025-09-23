@@ -42,8 +42,8 @@ class BehaveRunner:
                 self.features_dir,
                 "--format=json",
                 f"--outfile={cucumber_json_file}",
-                "--format=junit",
-                f"--outfile={junit_xml_file}",
+                "--junit",
+                f"--junit-directory={self.reports_dir}",
                 "--format=pretty",
                 "--no-capture",
                 "--no-capture-stderr"
