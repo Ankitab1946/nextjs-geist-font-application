@@ -35,6 +35,11 @@ def step_given_source_data_file(context, filename):
         logger.warning(f"Source file {filename} not found")
         context.source_record_count = 0
 
+@given('I have a source data file')
+def step_given_source_data_file_default(context):
+    """Check if default source data file exists."""
+    step_given_source_data_file(context, 'sample_feed.csv')
+
 @when('I load the data into the database')
 def step_when_load_data_to_database(context):
     """Load data from source file to database."""
@@ -458,3 +463,27 @@ def step_validation_passes(context):
     """Verify validation passes."""
     assert getattr(context, 'validation_implemented', False), "Validation not implemented"
     logger.info("Validation passed successfully")
+
+@then('the revenue data should meet the specified criteria')
+def step_revenue_meets_criteria(context):
+    """Verify revenue data meets specified criteria."""
+    try:
+        # Query Client A revenue from database
+        query = "SELECT revenue FROM clients WHERE client_name = 'Client A'"
+        result = quick_query(query)
+        
+        assert result is not None and len(result) > 0, "Client A not found in database"
+        
+        revenue = result[0]['revenue']
+        
+        # Validate revenue criteria
+        assert revenue is not None, "Revenue is null"
+        assert isinstance(revenue, (int, float)) or str(revenue).replace('.', '').isdigit(), "Revenue is not numeric"
+        assert float(revenue) > 0, f"Revenue is not positive: {revenue}"
+        assert float(revenue) >= 1000, f"Revenue is too low: {revenue}"  # Business rule example
+        
+        logger.info(f"Revenue validation passed for Client A: ${revenue:,.2f}")
+        
+    except Exception as e:
+        logger.error(f"Revenue validation failed: {e}")
+        assert False, f"Revenue data validation failed: {e}"
