@@ -285,13 +285,41 @@ class DataQualityChecker:
     def _save_validation_results(self, validation_result: Dict[str, Any]):
         """Save validation results and generate data docs."""
         try:
+            # Convert numpy types to native Python types for JSON serialization
+            def convert_numpy_types(obj):
+                if hasattr(obj, 'dtype'):
+                    if 'int' in str(obj.dtype):
+                        return int(obj)
+                    elif 'float' in str(obj.dtype):
+                        return float(obj)
+                    elif 'bool' in str(obj.dtype):
+                        return bool(obj)
+                    else:
+                        return str(obj)
+                elif isinstance(obj, dict):
+                    return {k: convert_numpy_types(v) for k, v in obj.items()}
+                elif isinstance(obj, list):
+                    return [convert_numpy_types(item) for item in obj]
+                else:
+                    return obj
+            
+            # Convert validation results
+            serializable_results = convert_numpy_types(validation_result)
+            
             # Save validation results as JSON
             timestamp = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
             results_file = f"{self.data_docs_dir}/validation_results_{timestamp}.json"
-            save_json_file(validation_result, results_file)
             
-            # Generate simple HTML data docs
-            self._generate_data_docs(validation_result, timestamp)
+            with open(results_file, 'w', encoding='utf-8') as f:
+                json.dump(serializable_results, f, indent=2, default=str)
+            
+            logger.info(f"Validation results saved to {results_file}")
+            
+            # Generate comprehensive HTML data docs
+            self._generate_data_docs(serializable_results, timestamp)
+            
+            # Generate index.html for easy access
+            self._generate_index_html(timestamp)
             
         except Exception as e:
             logger.error(f"Failed to save validation results: {e}")
@@ -360,6 +388,148 @@ class DataQualityChecker:
             
         except Exception as e:
             logger.error(f"Failed to generate data docs: {e}")
+    
+    def _generate_index_html(self, timestamp: str):
+        """Generate index.html for easy access to all reports."""
+        try:
+            import os
+            import glob
+            
+            # Find all HTML reports
+            html_files = glob.glob(f"{self.data_docs_dir}/data_docs_*.html")
+            json_files = glob.glob(f"{self.data_docs_dir}/validation_results_*.json")
+            
+            # Sort by timestamp (newest first)
+            html_files.sort(reverse=True)
+            json_files.sort(reverse=True)
+            
+            html_content = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Great Expectations Data Docs - Index</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }}
+        .container {{ max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
+        .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; }}
+        .section {{ margin: 20px 0; }}
+        .file-list {{ list-style: none; padding: 0; }}
+        .file-item {{ background-color: #f8f9fa; margin: 10px 0; padding: 15px; border-radius: 5px; border-left: 4px solid #007bff; }}
+        .file-item:hover {{ background-color: #e9ecef; }}
+        .file-link {{ text-decoration: none; color: #007bff; font-weight: bold; }}
+        .file-link:hover {{ color: #0056b3; }}
+        .timestamp {{ color: #6c757d; font-size: 0.9em; }}
+        .stats {{ display: flex; justify-content: space-around; margin: 20px 0; }}
+        .stat-card {{ background-color: #f8f9fa; padding: 20px; border-radius: 10px; text-align: center; min-width: 150px; }}
+        .stat-number {{ font-size: 2em; font-weight: bold; color: #007bff; }}
+        .latest-report {{ background-color: #d4edda; border-left-color: #28a745; }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Great Expectations Data Docs</h1>
+            <p>Data Quality Validation Reports Dashboard</p>
+            <p>Last Updated: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">{len(html_files)}</div>
+                <div>HTML Reports</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{len(json_files)}</div>
+                <div>JSON Results</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{'✅' if html_files else '❌'}</div>
+                <div>Status</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 HTML Data Quality Reports</h2>
+            <ul class="file-list">
+"""
+            
+            for i, html_file in enumerate(html_files[:10]):  # Show latest 10
+                filename = os.path.basename(html_file)
+                file_timestamp = filename.replace('data_docs_', '').replace('.html', '')
+                
+                # Format timestamp for display
+                try:
+                    dt = pd.to_datetime(file_timestamp, format='%Y%m%d_%H%M%S')
+                    display_time = dt.strftime('%Y-%m-%d %H:%M:%S')
+                except:
+                    display_time = file_timestamp
+                
+                latest_class = 'latest-report' if i == 0 else ''
+                latest_badge = ' 🆕 LATEST' if i == 0 else ''
+                
+                html_content += f"""
+                <li class="file-item {latest_class}">
+                    <a href="{filename}" class="file-link">{filename}{latest_badge}</a>
+                    <div class="timestamp">Generated: {display_time}</div>
+                </li>
+"""
+            
+            html_content += """
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📄 JSON Validation Results</h2>
+            <ul class="file-list">
+"""
+            
+            for i, json_file in enumerate(json_files[:10]):  # Show latest 10
+                filename = os.path.basename(json_file)
+                file_timestamp = filename.replace('validation_results_', '').replace('.json', '')
+                
+                # Format timestamp for display
+                try:
+                    dt = pd.to_datetime(file_timestamp, format='%Y%m%d_%H%M%S')
+                    display_time = dt.strftime('%Y-%m-%d %H:%M:%S')
+                except:
+                    display_time = file_timestamp
+                
+                latest_class = 'latest-report' if i == 0 else ''
+                latest_badge = ' 🆕 LATEST' if i == 0 else ''
+                
+                html_content += f"""
+                <li class="file-item {latest_class}">
+                    <a href="{filename}" class="file-link" download>{filename}{latest_badge}</a>
+                    <div class="timestamp">Generated: {display_time}</div>
+                </li>
+"""
+            
+            html_content += """
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>ℹ️ About</h2>
+            <p>This dashboard provides access to all Great Expectations data quality validation reports generated by the BDD Demo application.</p>
+            <ul>
+                <li><strong>HTML Reports:</strong> Human-readable validation results with detailed statistics</li>
+                <li><strong>JSON Results:</strong> Machine-readable validation data for integration</li>
+                <li><strong>Latest Reports:</strong> Most recent validations are highlighted</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+"""
+            
+            index_file = f"{self.data_docs_dir}/index.html"
+            with open(index_file, 'w', encoding='utf-8') as f:
+                f.write(html_content)
+            
+            logger.info(f"Index page generated: {index_file}")
+            
+        except Exception as e:
+            logger.error(f"Failed to generate index HTML: {e}")
     
     def get_latest_validation_results(self) -> Optional[Dict[str, Any]]:
         """Get the latest validation results."""
