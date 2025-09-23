@@ -3,3 +3,88 @@
 2025-09-23 00:32:50,916 - app.utils - INFO - Starting Behave test execution for all features
 2025-09-23 00:32:50,918 - app.utils - INFO - Executing command: behave features --format=json --outfile=reports/cucumber_report_20250923_003250.json --format=junit --outfile=reports/junit_report_20250923_003250.xml --format=pretty --no-capture --no-capture-stderr
 2025-09-23 00:32:50,993 - app.utils - INFO - Behave execution completed. Results saved to reports/cucumber_report_20250923_003250.json
+2025-09-23 12:30:48,705 - app.utils - INFO - Starting database setup...
+2025-09-23 12:30:48,706 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:30:48,706 - app.utils - INFO - Connected to database successfully
+2025-09-23 12:30:48,706 - app.utils - INFO - Setting up sample data...
+2025-09-23 12:30:48,708 - app.db_utils - INFO - Sample CSV created: data/sample_feed.csv
+2025-09-23 12:30:48,709 - app.db_utils - INFO - Loaded CSV with 5 rows and 5 columns
+2025-09-23 12:30:48,729 - app.db_utils - INFO - Data loaded to table 'clients' successfully
+2025-09-23 12:30:48,729 - app.db_utils - INFO - Sample data loaded to database successfully
+2025-09-23 12:30:48,730 - app.utils - INFO - Sample data setup completed successfully
+2025-09-23 12:30:48,730 - app.utils - INFO - Clients table now has 5 records
+2025-09-23 12:30:48,730 - app.utils - INFO - Sample data preview:
+2025-09-23 12:30:48,730 - app.utils - INFO -   Client: Client A, Revenue: $150,000.50
+2025-09-23 12:30:48,730 - app.utils - INFO -   Client: Client B, Revenue: $275,000.75
+2025-09-23 12:30:48,730 - app.utils - INFO -   Client: Client C, Revenue: $89,000.25
+2025-09-23 12:30:48,730 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:31:27,242 - app.utils - INFO - Behave environment initialized
+2025-09-23 12:31:27,361 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:31:27,361 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:31:27,361 - builtins - INFO - Database has 5 records
+2025-09-23 12:31:27,361 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:31:27,362 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:31:27,362 - builtins - INFO - Checked data types for 5 records
+2025-09-23 12:31:27,362 - builtins - INFO - All numeric fields validation passed
+2025-09-23 12:31:27,362 - builtins - INFO - Date fields validation passed (no date fields in current schema)
+2025-09-23 12:31:27,362 - builtins - INFO - Requirement stored: I want to validate that the revenue data for Client A is displayed correctly on the dashboard and sh...
+2025-09-23 12:31:27,363 - builtins - INFO - Validation logic implemented
+2025-09-23 12:33:23,719 - app.utils - INFO - Behave environment initialized
+2025-09-23 12:33:23,784 - builtins - INFO - Source file sample_feed.csv has 5 records
+2025-09-23 12:33:23,785 - app.db_utils - INFO - Loaded CSV with 5 rows and 5 columns
+2025-09-23 12:33:23,786 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:33:23,814 - app.db_utils - INFO - Data loaded to table 'clients' successfully
+2025-09-23 12:33:23,814 - builtins - INFO - Loaded 5 records to database
+2025-09-23 12:33:23,814 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:33:23,814 - builtins - INFO - Comparing counts - Source: 5, Loaded: 5
+2025-09-23 12:33:23,814 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:33:23,814 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:33:23,815 - builtins - INFO - Field 'client_id' validation passed - no null values
+2025-09-23 12:33:23,815 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:33:23,815 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:33:23,815 - builtins - INFO - Field 'client_name' validation passed - no null values
+2025-09-23 12:33:23,815 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:33:23,815 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:33:23,815 - builtins - INFO - Field 'revenue' validation passed - no null values
+2025-09-23 12:33:23,816 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:33:23,816 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:33:23,816 - builtins - INFO - Database has 5 records
+2025-09-23 12:33:23,816 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:33:23,816 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:33:23,816 - builtins - INFO - Checked data types for 5 records
+2025-09-23 12:33:23,816 - builtins - INFO - All numeric fields validation passed
+2025-09-23 12:33:23,816 - builtins - INFO - Date fields validation passed (no date fields in current schema)
+2025-09-23 12:33:23,817 - builtins - INFO - Requirement stored: I want to validate that the revenue data for Client A is displayed correctly on the dashboard and sh...
+2025-09-23 12:33:23,817 - builtins - INFO - Validation logic implemented
+2025-09-23 12:33:23,817 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:33:23,817 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:33:23,818 - builtins - INFO - Revenue validation passed for Client A: $150,000.50
+2025-09-23 12:33:23,818 - builtins - INFO - Validation passed successfully
+2025-09-23 12:33:46,032 - app.utils - INFO - Behave environment initialized
+2025-09-23 12:33:46,097 - builtins - ERROR - API endpoint check failed: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /health (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fb8a430cdc0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-09-23 12:33:46,099 - builtins - ERROR - API endpoint check failed: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /health (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fb8a430db70>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-09-23 12:35:21,060 - app.utils - INFO - Behave environment initialized
+2025-09-23 12:35:21,133 - builtins - INFO - API endpoint is available at http://127.0.0.1:8001
+2025-09-23 12:35:21,134 - builtins - INFO - API request completed with status 200
+2025-09-23 12:35:21,135 - builtins - INFO - Status code validation passed: 200
+2025-09-23 12:35:21,135 - builtins - INFO - Response structure validation passed
+2025-09-23 12:35:21,136 - builtins - INFO - API endpoint is available at http://127.0.0.1:8001
+2025-09-23 12:35:21,138 - builtins - INFO - API request completed with status 200
+2025-09-23 12:35:21,141 - root - ERROR - Error saving JSON file data/ge_data_docs/validation_results_20250923_123521.json: Object of type bool_ is not JSON serializable
+2025-09-23 12:35:21,141 - app.ge_checks - ERROR - Failed to generate data docs: Object of type bool_ is not JSON serializable
+2025-09-23 12:35:21,141 - builtins - INFO - Great Expectations validation completed: True
+2025-09-23 12:35:21,141 - builtins - INFO - Range validation passed with 100.0% success rate
+2025-09-23 12:35:21,141 - builtins - INFO - Null value validation passed
+2025-09-23 12:36:04,969 - app.utils - INFO - Behave environment initialized
+2025-09-23 12:36:05,039 - builtins - INFO - Dashboard URL set: http://127.0.0.1:8001/dashboard
+2025-09-23 12:36:05,039 - WDM - INFO - ====== WebDriver manager ======
+2025-09-23 12:36:05,046 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-09-23 12:36:05,046 - app.selenium_tests - ERROR - Failed to setup WebDriver: 'NoneType' object has no attribute 'split'
+2025-09-23 12:36:05,046 - app.selenium_tests - INFO - UI validation completed in 0.01 seconds
+2025-09-23 12:36:05,046 - builtins - INFO - Client A search completed: False
+2025-09-23 12:36:05,047 - builtins - INFO - Application URL set: http://127.0.0.1:8001/dashboard
+2025-09-23 12:36:05,047 - WDM - INFO - ====== WebDriver manager ======
+2025-09-23 12:36:05,053 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-09-23 12:36:05,053 - app.selenium_tests - ERROR - Failed to setup WebDriver: 'NoneType' object has no attribute 'split'
+2025-09-23 12:36:05,054 - app.selenium_tests - INFO - Element validation completed in 0.01 seconds
+2025-09-23 12:36:05,054 - builtins - INFO - Page load validation completed: False
