@@ -142,3 +142,4 @@
 2025-09-23 12:37:44,244 - app.selenium_tests - ERROR - Failed to setup WebDriver: 'NoneType' object has no attribute 'split'
 2025-09-23 12:37:44,244 - app.selenium_tests - INFO - Element validation completed in 0.01 seconds
 2025-09-23 12:37:44,244 - builtins - INFO - Page load validation completed: False
+2025-09-23 23:47:32,858 - app.utils - INFO - Behave environment initialized
