@@ -1,6 +1,6 @@
 client_id,client_name,revenue,region,active
-1,Client A,150000.50,North,True
+1,Client A,150000.5,North,True
 2,Client B,275000.75,South,True
 3,Client C,89000.25,East,False
-4,Client D,420000.00,West,True
-5,Client E,195000.30,Central,True
+4,Client D,420000.0,West,True
+5,Client E,195000.3,Central,True
