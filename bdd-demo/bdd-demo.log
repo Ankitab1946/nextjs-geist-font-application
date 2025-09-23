@@ -88,3 +88,57 @@
 2025-09-23 12:36:05,053 - app.selenium_tests - ERROR - Failed to setup WebDriver: 'NoneType' object has no attribute 'split'
 2025-09-23 12:36:05,054 - app.selenium_tests - INFO - Element validation completed in 0.01 seconds
 2025-09-23 12:36:05,054 - builtins - INFO - Page load validation completed: False
+2025-09-23 12:37:44,112 - app.utils - INFO - Behave environment initialized
+2025-09-23 12:37:44,180 - builtins - INFO - API endpoint is available at http://127.0.0.1:8001
+2025-09-23 12:37:44,182 - builtins - INFO - API request completed with status 200
+2025-09-23 12:37:44,182 - builtins - INFO - Status code validation passed: 200
+2025-09-23 12:37:44,182 - builtins - INFO - Response structure validation passed
+2025-09-23 12:37:44,184 - builtins - INFO - API endpoint is available at http://127.0.0.1:8001
+2025-09-23 12:37:44,185 - builtins - INFO - API request completed with status 200
+2025-09-23 12:37:44,188 - root - ERROR - Error saving JSON file data/ge_data_docs/validation_results_20250923_123744.json: Object of type bool_ is not JSON serializable
+2025-09-23 12:37:44,188 - app.ge_checks - ERROR - Failed to generate data docs: Object of type bool_ is not JSON serializable
+2025-09-23 12:37:44,188 - builtins - INFO - Great Expectations validation completed: True
+2025-09-23 12:37:44,188 - builtins - INFO - Range validation passed with 100.0% success rate
+2025-09-23 12:37:44,188 - builtins - INFO - Null value validation passed
+2025-09-23 12:37:44,190 - builtins - INFO - Source file sample_feed.csv has 5 records
+2025-09-23 12:37:44,191 - app.db_utils - INFO - Loaded CSV with 5 rows and 5 columns
+2025-09-23 12:37:44,191 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:37:44,225 - app.db_utils - INFO - Data loaded to table 'clients' successfully
+2025-09-23 12:37:44,225 - builtins - INFO - Loaded 5 records to database
+2025-09-23 12:37:44,225 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:37:44,225 - builtins - INFO - Comparing counts - Source: 5, Loaded: 5
+2025-09-23 12:37:44,225 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:37:44,226 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:37:44,226 - builtins - INFO - Field 'client_id' validation passed - no null values
+2025-09-23 12:37:44,226 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:37:44,226 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:37:44,226 - builtins - INFO - Field 'client_name' validation passed - no null values
+2025-09-23 12:37:44,226 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:37:44,226 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:37:44,226 - builtins - INFO - Field 'revenue' validation passed - no null values
+2025-09-23 12:37:44,227 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:37:44,227 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:37:44,227 - builtins - INFO - Database has 5 records
+2025-09-23 12:37:44,227 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:37:44,227 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:37:44,227 - builtins - INFO - Checked data types for 5 records
+2025-09-23 12:37:44,227 - builtins - INFO - All numeric fields validation passed
+2025-09-23 12:37:44,227 - builtins - INFO - Date fields validation passed (no date fields in current schema)
+2025-09-23 12:37:44,228 - builtins - INFO - Requirement stored: I want to validate that the revenue data for Client A is displayed correctly on the dashboard and sh...
+2025-09-23 12:37:44,228 - builtins - INFO - Validation logic implemented
+2025-09-23 12:37:44,228 - app.db_utils - INFO - Connected to SQLite database: data/demo.db
+2025-09-23 12:37:44,229 - app.db_utils - INFO - Database connection closed
+2025-09-23 12:37:44,229 - builtins - INFO - Revenue validation passed for Client A: $150,000.50
+2025-09-23 12:37:44,229 - builtins - INFO - Validation passed successfully
+2025-09-23 12:37:44,229 - builtins - INFO - Dashboard URL set: http://127.0.0.1:8001/dashboard
+2025-09-23 12:37:44,229 - WDM - INFO - ====== WebDriver manager ======
+2025-09-23 12:37:44,237 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-09-23 12:37:44,237 - app.selenium_tests - ERROR - Failed to setup WebDriver: 'NoneType' object has no attribute 'split'
+2025-09-23 12:37:44,237 - app.selenium_tests - INFO - UI validation completed in 0.01 seconds
+2025-09-23 12:37:44,237 - builtins - INFO - Client A search completed: False
+2025-09-23 12:37:44,238 - builtins - INFO - Application URL set: http://127.0.0.1:8001/dashboard
+2025-09-23 12:37:44,238 - WDM - INFO - ====== WebDriver manager ======
+2025-09-23 12:37:44,244 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-09-23 12:37:44,244 - app.selenium_tests - ERROR - Failed to setup WebDriver: 'NoneType' object has no attribute 'split'
+2025-09-23 12:37:44,244 - app.selenium_tests - INFO - Element validation completed in 0.01 seconds
+2025-09-23 12:37:44,244 - builtins - INFO - Page load validation completed: False
