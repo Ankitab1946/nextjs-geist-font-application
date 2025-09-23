@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Quality Validation Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { background-color: #f0f0f0; padding: 20px; border-radius: 5px; }
+        .success { color: green; }
+        .failure { color: red; }
+        .stats { background-color: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .expectation { margin: 10px 0; padding: 10px; border-left: 3px solid #ccc; }
+        .expectation.success { border-left-color: green; }
+        .expectation.failure { border-left-color: red; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Data Quality Validation Results</h1>
+        <p>Generated: 2025-09-23T23:46:42.899758</p>
+        <p>Overall Status: <span class="failure">
+            FAILED
+        </span></p>
+    </div>
+    
+    <div class="stats">
+        <h2>Statistics</h2>
+        <p>Evaluated Expectations: 1</p>
+        <p>Successful: 0</p>
+        <p>Failed: 1</p>
+        <p>Success Rate: 0.0%</p>
+    </div>
+    
+    <h2>Expectation Results</h2>
+
+    <div class="expectation failure">
+        <h3>expect_column_values_to_be_between</h3>
+        <p>Status: <span class="failure">FAILED</span></p>
+        <p>Details: {
+  "observed_value": {
+    "min": 2000000.0,
+    "max": 2000000.0,
+    "null_count": 0
+  },
+  "details": {
+    "has_nulls": false,
+    "all_positive": true,
+    "reasonable_max": false
+  }
+}</p>
+    </div>
+
+</body>
+</html>
